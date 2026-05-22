@@ -7,6 +7,7 @@ import {
   UserFollowsRestaurant,
   UserFollowsRestaurantSchema,
 } from './schemas/user-follows-restaurant.schema';
+import { RestaurantsModule } from '@/restaurants/restaurants.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import {
         schema: UserFollowsRestaurantSchema,
       },
     ]),
+    RestaurantsModule,
   ],
   controllers: [UsersController],
   providers: [UsersService],
