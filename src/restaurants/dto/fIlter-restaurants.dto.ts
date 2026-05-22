@@ -1,4 +1,4 @@
-import { Cuisines } from '@/common/enums/Cuisines.enum';
+import { Cuisines } from '@/common/enums/cuisines.enum';
 import { PaginationDto } from '@/common/dto/pagination.dto';
 import { IsEnum, IsOptional } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
