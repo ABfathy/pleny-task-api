@@ -6,6 +6,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { RecommendationService } from './recommendation.service';
+import { ParseMongoIdPipe } from '@/common/pipes/parse-mongo-id.pipe';
 
 @ApiTags('recommendations')
 @Controller('recommendation')
@@ -19,7 +20,7 @@ export class RecommendationController {
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @Get(':id')
-  getRecommendations(@Param('id') id: string) {
+  getRecommendations(@Param('id', ParseMongoIdPipe) id: string) {
     return this.recommendationService.getRecommendations(id);
   }
 }

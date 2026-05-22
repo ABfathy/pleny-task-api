@@ -11,6 +11,7 @@ import {
 } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user.dto';
 import { FollowsRestaurantDto } from './dto/follows-restaurant.dto';
+import { ParseMongoIdPipe } from '@/common/pipes/parse-mongo-id.pipe';
 
 @ApiTags('users')
 @Controller('users')
@@ -33,7 +34,7 @@ export class UsersController {
   @ApiNotFoundResponse()
   @Post(':id/follow')
   followRestaurant(
-    @Param('id') id: string,
+    @Param('id', ParseMongoIdPipe) id: string,
     @Body() followsRestaurantDto: FollowsRestaurantDto,
   ) {
     return this.usersService.followRestaurant(id, followsRestaurantDto);
@@ -43,7 +44,7 @@ export class UsersController {
   @ApiOkResponse()
   @ApiBadRequestResponse()
   @Get(':id/following')
-  getFollowing(@Param('id') id: string) {
+  getFollowing(@Param('id', ParseMongoIdPipe) id: string) {
     return this.usersService.getFollowing(id);
   }
 
@@ -54,8 +55,8 @@ export class UsersController {
   @ApiNotFoundResponse()
   @Delete(':userId/follow/:restaurantId')
   unfollowRestaurant(
-    @Param('userId') userId: string,
-    @Param('restaurantId') restaurantId: string,
+    @Param('userId', ParseMongoIdPipe) userId: string,
+    @Param('restaurantId', ParseMongoIdPipe) restaurantId: string,
   ) {
     return this.usersService.unfollowRestaurant(userId, restaurantId);
   }
