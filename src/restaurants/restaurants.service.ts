@@ -2,9 +2,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Restaurant } from './schemas/restaurant.schema';
 import { isValidObjectId, Model } from 'mongoose';
-import { CreateRestaurantDto } from './dto/CreateRestaurant.dto';
-import { FilterRestaurantsDto } from './dto/FIlterRestaurants.dto';
-import { NearbyRestaurantsDto } from './dto/NearbyRestaurants.dto';
+import { CreateRestaurantDto } from './dto/create-restaurant.dto';
+import { FilterRestaurantsDto } from './dto/fIlter-restaurants.dto';
+import { NearbyRestaurantsDto } from './dto/nearby-restaurants.dto';
 
 @Injectable()
 export class RestaurantsService {

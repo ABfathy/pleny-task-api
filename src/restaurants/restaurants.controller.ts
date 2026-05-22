@@ -9,9 +9,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { RestaurantsService } from './restaurants.service';
-import { CreateRestaurantDto } from './dto/CreateRestaurant.dto';
-import { FilterRestaurantsDto } from './dto/FIlterRestaurants.dto';
-import { NearbyRestaurantsDto } from './dto/NearbyRestaurants.dto';
+import { CreateRestaurantDto } from './dto/create-restaurant.dto';
+import { FilterRestaurantsDto } from './dto/fIlter-restaurants.dto';
+import { NearbyRestaurantsDto } from './dto/nearby-restaurants.dto';
 
 @ApiTags('restaurants')
 @Controller('restaurants')
