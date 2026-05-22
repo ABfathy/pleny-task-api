@@ -16,13 +16,18 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
 
     let status = HttpStatus.INTERNAL_SERVER_ERROR;
-    let message: string = 'Internal server error';
+    let message: string | string[] = 'Internal server error';
 
     const err = exception as { code?: number; name?: string };
 
     if (exception instanceof HttpException) {
       status = exception.getStatus();
-      message = exception.getResponse() as string;
+      const res = exception.getResponse();
+      message =
+        typeof res === 'string'
+          ? res
+          : ((res as { message?: string | string[] }).message ??
+            exception.message);
     } else if (err.code === 11000) {
       status = HttpStatus.CONFLICT;
       message = 'A record with this value already exists';

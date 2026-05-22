@@ -11,10 +11,26 @@ import {
   IsString,
   ValidateNested,
   MaxLength,
+  ArrayUnique,
+  ValidatorConstraint,
+  ValidatorConstraintInterface,
+  Validate,
 } from 'class-validator';
 
 import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+
+@ValidatorConstraint({ name: 'isLngLat', async: false })
+class IsLngLat implements ValidatorConstraintInterface {
+  validate(value: number[]) {
+    if (!Array.isArray(value)) return false;
+    const [lng, lat] = value;
+    return lng >= -180 && lng <= 180 && lat >= -90 && lat <= 90;
+  }
+  defaultMessage() {
+    return 'coordinates must be [lng, lat] with lng in [-180,180] and lat in [-90,90]';
+  }
+}
 
 export class CreateLocationDto {
   @ApiProperty({
@@ -34,6 +50,7 @@ export class CreateLocationDto {
   @ArrayMinSize(2)
   @ArrayMaxSize(2)
   @IsNumber({}, { each: true })
+  @Validate(IsLngLat)
   coordinates!: number[];
 }
 
@@ -74,6 +91,7 @@ export class CreateRestaurantDto {
   @IsArray()
   @ArrayMinSize(1)
   @ArrayMaxSize(3)
+  @ArrayUnique()
   @IsEnum(Cuisines, { each: true })
   cuisines!: Cuisines[];
 

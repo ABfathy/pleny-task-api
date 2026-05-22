@@ -7,6 +7,7 @@ import {
   IsNotEmpty,
   IsString,
   MaxLength,
+  ArrayUnique,
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -27,6 +28,7 @@ export class CreateUserDto {
   })
   @IsArray()
   @ArrayMinSize(1)
+  @ArrayUnique()
   @IsEnum(Cuisines, { each: true })
   favoriteCuisines!: Cuisines[];
 }
