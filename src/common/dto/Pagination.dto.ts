@@ -9,7 +9,7 @@ export class PaginationDto {
   @IsOptional()
   @IsInt()
   @Min(1)
-  page?: number = 1;
+  page: number = 1;
 
   @ApiPropertyOptional({
     description: 'Max docs per page',
@@ -19,5 +19,5 @@ export class PaginationDto {
   @IsInt()
   @Max(100)
   @Min(1)
-  limit?: number = 10;
+  limit: number = 10;
 }
