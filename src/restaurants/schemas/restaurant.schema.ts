@@ -1,7 +1,7 @@
 import { Cuisines } from '@/common/enums/cuisines.enum';
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 
-@Schema({ timestamps: true })
+@Schema({ timestamps: true, versionKey: false })
 export class Restaurant {
   @Prop({ required: true })
   nameEnglish!: string;
