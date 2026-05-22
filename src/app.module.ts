@@ -14,6 +14,7 @@ import { RecommendationModule } from './recommendation/recommendation.module';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         uri: config.getOrThrow<string>('DATABASE_URI'),
+        toJSON: { versionKey: false },
       }),
     }),
     RestaurantsModule,
