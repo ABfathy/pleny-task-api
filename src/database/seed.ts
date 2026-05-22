@@ -1,56 +1,22 @@
-import mongoose, { Schema, model } from 'mongoose';
+import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import { Cuisines } from '@/common/enums/cuisines.enum';
+import {
+  Restaurant,
+  RestaurantSchema,
+} from '@/restaurants/schemas/restaurant.schema';
+import { User, UserSchema } from '@/users/schemas/user.schema';
+import {
+  UserFollowsRestaurant,
+  UserFollowsRestaurantSchema,
+} from '@/users/schemas/user-follows-restaurant.schema';
 
 dotenv.config();
 
-enum Cuisines {
-  FRIED = 'Fried',
-  ASIAN = 'Asian',
-  BURGERS = 'Burgers',
-  PIZZA = 'Pizza',
-  SYRIAN = 'Syrian',
-  ITALIAN = 'Italian',
-}
-
-const RestaurantSchema = new Schema(
-  {
-    nameEnglish: String,
-    nameArabic: String,
-    slug: { type: String, unique: true },
-    cuisines: [{ type: String, enum: Cuisines }],
-    location: {
-      type: { type: String, enum: ['Point'], default: 'Point' },
-      coordinates: [Number],
-    },
-  },
-  { timestamps: true },
-);
-RestaurantSchema.index({ location: '2dsphere' });
-
-const UserSchema = new Schema(
-  {
-    fullName: String,
-    favoriteCuisines: [{ type: String, enum: Cuisines }],
-  },
-  { timestamps: true },
-);
-
-const UserFollowsRestaurantSchema = new Schema(
-  {
-    userId: { type: Schema.Types.ObjectId, ref: 'User' },
-    restaurantId: { type: Schema.Types.ObjectId, ref: 'Restaurant' },
-  },
-  { timestamps: true },
-);
-UserFollowsRestaurantSchema.index(
-  { userId: 1, restaurantId: 1 },
-  { unique: true },
-);
-
-const RestaurantModel = model('Restaurant', RestaurantSchema);
-const UserModel = model('User', UserSchema);
-const UserFollowsRestaurantModel = model(
-  'UserFollowsRestaurant',
+const RestaurantModel = mongoose.model(Restaurant.name, RestaurantSchema);
+const UserModel = mongoose.model(User.name, UserSchema);
+const UserFollowsRestaurantModel = mongoose.model(
+  UserFollowsRestaurant.name,
   UserFollowsRestaurantSchema,
 );
 
