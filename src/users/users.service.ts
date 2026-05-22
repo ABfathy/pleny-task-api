@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Restaurant } from '@/restaurants/schemas/restaurant.schema';
 import { UserFollowsRestaurant } from './schemas/user-follows-restaurant.schema';
+import { FollowsRestaurantDto } from './dto/follows-restaurant.dto';
 
 @Injectable()
 export class UsersService {
@@ -24,11 +25,11 @@ export class UsersService {
 
   async followRestaurant(
     userId: string,
-    restaurantId: string,
+    followsRestaurantDto: FollowsRestaurantDto,
   ): Promise<UserFollowsRestaurant> {
     const [user, restaurant] = await Promise.all([
       this.userModel.findById(userId),
-      this.restaurantModel.findById(restaurantId),
+      this.restaurantModel.findById(followsRestaurantDto.restaurantId),
     ]);
 
     if (!user) throw new NotFoundException('User Not found');
