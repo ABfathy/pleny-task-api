@@ -13,19 +13,25 @@ export class RestaurantsService {
     private readonly restaurantModel: Model<Restaurant>,
   ) {}
 
-  async create(dto: CreateRestaurantDto): Promise<Restaurant> {
-    const newRestaurant = await new this.restaurantModel(dto).save();
+  async create(createRestaurantDto: CreateRestaurantDto): Promise<Restaurant> {
+    const newRestaurant = await new this.restaurantModel(
+      createRestaurantDto,
+    ).save();
 
     return newRestaurant;
   }
 
-  async findAll(dto: FilterRestaurantsDto): Promise<Restaurant[]> {
-    const filter = dto.cuisine ? { cuisines: dto.cuisine } : {};
+  async findAll(
+    filterRestaurantsDto: FilterRestaurantsDto,
+  ): Promise<Restaurant[]> {
+    const filter = filterRestaurantsDto.cuisine
+      ? { cuisines: filterRestaurantsDto.cuisine }
+      : {};
 
     const restaurants = await this.restaurantModel
       .find(filter)
-      .skip((dto.page - 1) * dto.limit)
-      .limit(dto.limit)
+      .skip((filterRestaurantsDto.page - 1) * filterRestaurantsDto.limit)
+      .limit(filterRestaurantsDto.limit)
       .lean();
 
     return restaurants;
@@ -43,12 +49,17 @@ export class RestaurantsService {
     return restaurant;
   }
 
-  async findNearby(dto: NearbyRestaurantsDto): Promise<Restaurant[]> {
+  async findNearby(
+    nearbyRestaurantsDto: NearbyRestaurantsDto,
+  ): Promise<Restaurant[]> {
     const restaurants = await this.restaurantModel
       .find({
         location: {
           $near: {
-            $geometry: { type: 'Point', coordinates: [dto.lng, dto.lat] },
+            $geometry: {
+              type: 'Point',
+              coordinates: [nearbyRestaurantsDto.lng, nearbyRestaurantsDto.lat],
+            },
             $maxDistance: 1000,
           },
         },

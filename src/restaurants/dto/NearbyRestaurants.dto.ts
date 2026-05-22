@@ -1,11 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, Min, Max } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class NearbyRestaurantsDto {
   @ApiProperty({
     description: 'Latitude of search origin',
     example: 30.0444,
   })
+  @Type(() => Number)
   @IsNumber()
   @Min(-90)
   @Max(90)
@@ -15,6 +17,7 @@ export class NearbyRestaurantsDto {
     description: 'Longitude of search origin',
     example: 31.2357,
   })
+  @Type(() => Number)
   @IsNumber()
   @Min(-180)
   @Max(180)
