@@ -4,6 +4,7 @@ import { Restaurant } from './schemas/restaurant.schema';
 import { isValidObjectId, Model } from 'mongoose';
 import { CreateRestaurantDto } from './dto/CreateRestaurant.dto';
 import { FilterRestaurantsDto } from './dto/FIlterRestaurants.dto';
+import { NearbyRestaurantsDto } from './dto/NearbyRestaurants.dto';
 
 @Injectable()
 export class RestaurantsService {
@@ -40,5 +41,20 @@ export class RestaurantsService {
     if (!restaurant) throw new NotFoundException('Restaurant not found');
 
     return restaurant;
+  }
+
+  async findNearby(dto: NearbyRestaurantsDto): Promise<Restaurant[]> {
+    const restaurants = await this.restaurantModel
+      .find({
+        location: {
+          $near: {
+            $geometry: { type: 'Point', coordinates: [dto.lng, dto.lat] },
+            $maxDistance: 1000,
+          },
+        },
+      })
+      .lean();
+
+    return restaurants;
   }
 }
